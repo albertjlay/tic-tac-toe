@@ -6,6 +6,7 @@ import { PlayerID, SquareState, SquareID } from './types';
 
 export default class Square {
   private _state: SquareState;
+  private _DOMRender: HTMLDivElement | null;
 
   /**
    * Create a square with initial undefined state with the specified ID.
@@ -13,10 +14,12 @@ export default class Square {
    */
   constructor(public readonly id: SquareID) {
     this._state = undefined;
+    this._DOMRender = null;
   }
 
   /**
    * Can only be modified if current state is undefined. Once changed, it stays constant.
+   * Will also rerender div if it exists.
    */
   get state() {
     return this._state;
@@ -24,25 +27,39 @@ export default class Square {
   set state(player: SquareState) {
     if (this._state === undefined) {
       this._state = player;
+      this.updateRender();
     }
   }
 
   /**
-   * Returns a div representing the square with most updated state.
+   * Appends a div representing the square as a child of parent.
+   * @param parent Parent element where Square will be appended to.
    */
-  render() {
+  render(parent: HTMLElement) {
     const domRepresentation = document.createElement('div');
     domRepresentation.id = `square${this.id.toString()}`;
     domRepresentation.classList.add('square');
+    domRepresentation.classList.add(this.getClassState());
+    this._DOMRender = domRepresentation;
+    parent.appendChild(domRepresentation);
+  }
+
+  /**
+   * Determine class based on the current state.
+   * @returns Class based on the current state
+   */
+  private getClassState() {
     switch (this.state) {
       case PlayerID.P1:
-        domRepresentation.classList.add('P1');
-        break;
+        return 'P1';
       case PlayerID.P2:
-        domRepresentation.classList.add('P2');
-        break;
+        return 'P2';
       default:
+        return 'none';
     }
-    return domRepresentation;
+  }
+
+  private updateRender() {
+    this._DOMRender?.classList.add(this.getClassState());
   }
 }
