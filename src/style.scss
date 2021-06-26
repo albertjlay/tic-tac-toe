@@ -46,9 +46,13 @@ header {
     display: inline-block;
     transition: all ease-in 60ms;
 
-    &.none:hover {
+    &.active:hover {
       cursor: pointer;
       background-color: darken($square-color, 10%);
+    }
+
+    &.win {
+      background-color: yellow;
     }
 
     @mixin selected-square($iconURL) {
