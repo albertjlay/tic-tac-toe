@@ -51,15 +51,19 @@ export default class Square {
   private getClassState() {
     switch (this.state) {
       case PlayerID.playerX:
-        return 'P1';
+        return 'playerX';
       case PlayerID.playerO:
-        return 'P2';
+        return 'playerO';
       default:
         return 'none';
     }
   }
 
+  /**
+   * Add new class based on current state and delete the 'none' class.
+   */
   private updateRender() {
     this._DOMRender?.classList.add(this.getClassState());
+    this._DOMRender?.classList.remove('none');
   }
 }
