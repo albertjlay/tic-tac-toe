@@ -44,10 +44,10 @@ header {
     background-color: $square-color;
     border: solid 1px black;
     display: inline-block;
-    cursor: pointer;
     transition: all ease-in 60ms;
 
-    &:hover {
+    &.none:hover {
+      cursor: pointer;
       background-color: darken($square-color, 10%);
     }
 

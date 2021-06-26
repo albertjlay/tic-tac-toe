@@ -49,6 +49,9 @@ export default class Board {
     boardDOM.classList.add('board');
     this.boardSquares.forEach((square) => {
       square.render(boardDOM, () => {
+        if (square.state !== undefined) {
+          return;
+        }
         if (this.currentTurn === PlayerID.playerX) {
           this.xSquares.push(square.id);
           square.state = PlayerID.playerX;
