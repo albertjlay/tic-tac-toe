@@ -5,10 +5,10 @@ test('Correctness of square properties', () => {
   const testSquare = new Square(5);
   expect(testSquare.id).toBe(5);
   expect(testSquare.state).toBe(undefined);
-  testSquare.state = PlayerID.P1;
-  expect(testSquare.state).toBe(PlayerID.P1);
-  testSquare.state = PlayerID.P2;
-  expect(testSquare.state).toBe(PlayerID.P1);
+  testSquare.state = PlayerID.playerX;
+  expect(testSquare.state).toBe(PlayerID.playerX);
+  testSquare.state = PlayerID.playerX;
+  expect(testSquare.state).toBe(PlayerID.playerX);
 });
 
 test('Correctness of square DOM properties', () => {
@@ -20,14 +20,14 @@ test('Correctness of square DOM properties', () => {
   expect(testSquareDOM1.id).toBe('square7');
   expect(testSquareDOM1.classList).toContain('square');
 
-  testSquare1.state = PlayerID.P2;
+  testSquare1.state = PlayerID.playerO;
   expect(testSquareDOM1.classList).toContain('P2');
   expect(testSquareDOM1.classList).not.toContain('P1');
 
   // Try changing state before rendering.
   const testSquare2 = new Square(6);
   const parent2 = document.createElement('div');
-  testSquare2.state = PlayerID.P2;
+  testSquare2.state = PlayerID.playerO;
   testSquare2.render(parent2);
   const testSquareDOM2 = parent2.children[0];
   expect(testSquareDOM2).not.toBeUndefined;

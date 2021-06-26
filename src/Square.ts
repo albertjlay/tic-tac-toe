@@ -50,9 +50,9 @@ export default class Square {
    */
   private getClassState() {
     switch (this.state) {
-      case PlayerID.P1:
+      case PlayerID.playerX:
         return 'P1';
-      case PlayerID.P2:
+      case PlayerID.playerO:
         return 'P2';
       default:
         return 'none';

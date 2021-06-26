@@ -1,6 +1,6 @@
 export enum PlayerID {
-  P1,
-  P2,
+  playerX,
+  playerO,
 }
 export type SquareState = PlayerID | undefined;
 
