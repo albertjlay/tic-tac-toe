@@ -1,6 +1,19 @@
 import './style.scss';
 import Board from './Board';
 
-const root = document.querySelector('main')!;
-const board = new Board();
-board.render(root);
+/**
+ * Clears root div and instantiate a new board.
+ */
+const newGame = function () {
+  console.log('run');
+  const root = document.getElementById('root')!;
+  root.innerHTML = '';
+  const board = new Board();
+  board.render(root);
+};
+
+// Add click handler to reset button.
+const resetButton = document.querySelector('#reset');
+resetButton?.addEventListener('click', newGame);
+
+newGame();
