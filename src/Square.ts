@@ -34,12 +34,14 @@ export default class Square {
   /**
    * Appends a div representing the square as a child of parent.
    * @param parent Parent element where Square will be appended to.
+   * @param clickHandler Event handler for when square is clicked.
    */
-  render(parent: HTMLElement) {
+  render(parent: HTMLElement, clickHandler: () => void) {
     const domRepresentation = document.createElement('div');
     domRepresentation.id = `square${this.id.toString()}`;
     domRepresentation.classList.add('square');
     domRepresentation.classList.add(this.getClassState());
+    domRepresentation.addEventListener('click', clickHandler);
     this._DOMRender = domRepresentation;
     parent.appendChild(domRepresentation);
   }

@@ -14,7 +14,7 @@ test('Correctness of square properties', () => {
 test('Correctness of square DOM properties', () => {
   const testSquare1 = new Square(7);
   const parent1 = document.createElement('div');
-  testSquare1.render(parent1);
+  testSquare1.render(parent1, () => console.log('Click!'));
   const testSquareDOM1 = parent1.children[0];
   expect(testSquareDOM1).not.toBeUndefined;
   expect(testSquareDOM1.id).toBe('square7');
@@ -28,7 +28,7 @@ test('Correctness of square DOM properties', () => {
   const testSquare2 = new Square(6);
   const parent2 = document.createElement('div');
   testSquare2.state = PlayerID.playerX;
-  testSquare2.render(parent2);
+  testSquare2.render(parent2, () => console.log('Click!'));
   const testSquareDOM2 = parent2.children[0];
   expect(testSquareDOM2).not.toBeUndefined;
   expect(testSquareDOM2.id).toBe('square6');
