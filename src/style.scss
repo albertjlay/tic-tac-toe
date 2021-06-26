@@ -2,7 +2,7 @@
 
 $main-red: red;
 $main-blue: blue;
-$win-color: green;
+$win-color: rgb(239, 252, 205);
 $square-color: white;
 $main-font: 'Nanum Pen Script', cursive;
 $board-size: 35vw;
@@ -52,7 +52,7 @@ header {
     }
 
     &.win {
-      background-color: yellow;
+      background-color: $win-color;
     }
 
     @mixin selected-square($iconURL) {
