@@ -45,8 +45,10 @@ export default class Board {
    * @param parent The HTML element where the squares will be appended to.
    */
   render(parent: HTMLElement) {
+    const boardDOM = document.createElement('div');
+    boardDOM.classList.add('board');
     this.boardSquares.forEach((square) => {
-      square.render(parent, () => {
+      square.render(boardDOM, () => {
         if (this.currentTurn === PlayerID.playerX) {
           this.xSquares.push(square.id);
           square.state = PlayerID.playerX;
@@ -61,6 +63,7 @@ export default class Board {
         }
       });
     });
+    parent.appendChild(boardDOM);
   }
 
   /**

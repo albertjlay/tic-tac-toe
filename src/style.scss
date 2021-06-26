@@ -1,7 +1,11 @@
+@use "sass:math";
+
 $main-red: red;
 $main-blue: blue;
 $win-color: green;
+$square-color: white;
 $main-font: 'Nanum Pen Script', cursive;
+$board-size: 35vw;
 
 * {
   box-sizing: border-box;
@@ -11,7 +15,7 @@ $main-font: 'Nanum Pen Script', cursive;
 
 body {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 100vw;
   height: 100vh;
@@ -26,5 +30,37 @@ header {
   h2 {
     font-size: 20px;
     color: gray;
+  }
+}
+
+.board {
+  width: $board-size;
+  height: $board-size;
+  line-height: 0;
+  .square {
+    height: math.div($board-size, 3);
+    width: math.div($board-size, 3);
+    margin: 0;
+    background-color: $square-color;
+    border: solid 1px black;
+    display: inline-block;
+    cursor: pointer;
+    transition: all ease-in 60ms;
+
+    &:hover {
+      background-color: darken($square-color, 10%);
+    }
+
+    @mixin selected-square($iconURL) {
+      background-image: url($iconURL);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    &.playerX {
+      @include selected-square('./assets/xIcon.svg');
+    }
+    &.playerO {
+      @include selected-square('./assets/oIcon.svg');
+    }
   }
 }
