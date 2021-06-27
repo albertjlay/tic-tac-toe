@@ -2,9 +2,10 @@
  * A class that represents one of the nine boxes of tic-tac-toe.
  */
 
-import { PlayerID, SquareState, SquareID } from './types';
+import { PositionType, PlayerID, SquareState, SquareID } from './types';
 
 export default class Square {
+  public readonly positionType: PositionType;
   private _isActive: boolean;
   private _isWin: boolean;
   private _state: SquareState;
@@ -16,6 +17,7 @@ export default class Square {
    * @param id The ID of the square.
    */
   constructor(public readonly id: SquareID) {
+    this.positionType = this.getPositionTypeById();
     this._state = undefined;
     this._DOMRender = null;
     this._isActive = true;
@@ -102,5 +104,23 @@ export default class Square {
   private updateRender() {
     this._DOMRender?.classList.add(this.getClassState());
     this._DOMRender?.classList.remove('none');
+  }
+
+  /**
+   * Determine the position type of the instance of the square based on its ID.
+   * @returns The position type of the square.
+   */
+  private getPositionTypeById() {
+    switch (this.id) {
+      case 0:
+      case 2:
+      case 6:
+      case 8:
+        return PositionType.CORNER;
+      case 4:
+        return PositionType.CENTER;
+      default:
+        return PositionType.EDGE;
+    }
   }
 }
