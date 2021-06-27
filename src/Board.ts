@@ -12,19 +12,20 @@ export default class Board {
    */
   readonly boardSquares: Square[];
   /**
-   * Array representing the IDs of squares occupied by P1.
-   * Elements are in original order determined by moves of P1 (earliest first).
+   * Array representing the IDs of squares occupied by PX.
+   * Elements are in original order determined by moves of PX (earliest first).
    */
   xSquares: SquareID[];
   /**
-   * Array representing the IDs of squares occupied by P2.
-   * Elements are in original order determined by moves of P2 (earliest first).
+   * Array representing the IDs of squares occupied by PO.
+   * Elements are in original order determined by moves of PO (earliest first).
    */
   oSquares: SquareID[];
   /**
    * Current player's turn. PX goes first.
    */
   currentTurn: PlayerID;
+
   /**
    * Array containing SquareIDs in ascending order.
    */
@@ -52,8 +53,8 @@ export default class Board {
    * @returns ID of winner, 'DRAW', or 'INCONCLUSIVE'
    */
   checkResult() {
-    const winningPatternX = this.winningPattern(this.xSquares);
-    const winningPatternO = this.winningPattern(this.oSquares);
+    const winningPatternX = this.isWin(this.xSquares);
+    const winningPatternO = this.isWin(this.oSquares);
     if (winningPatternX) {
       return winningPatternX;
     } else if (winningPatternO) {
@@ -65,13 +66,12 @@ export default class Board {
   }
 
   /**
-   * Determines whether the array has a winning pattern.
+   * Determines whether filledSquares has a horizontal winning pattern.
    * If it does, return an array of the winning square IDs.
    * @param - Array of square IDs which have been filled by the player.
-   * @returns Array of winning squares if it has a winning pattern. null otherwise.
+   * @returns Array of winning squares if it has a winning pattern. false otherwise.
    */
-  private winningPattern(filledSquares: SquareID[]) {
-    // check horizontal win
+  isHorizontalWin(filledSquares: SquareID[]) {
     const sortedArr = filledSquares.sort((a, b) => a - b);
     for (let i = 0; i < sortedArr.length - 2; i += 1) {
       const isConsecutive =
@@ -82,16 +82,32 @@ export default class Board {
         return sortedArr.slice(i, i + 3);
       }
     }
+    return false;
+  }
 
-    // check vertical win
+  /**
+   * Determines whether filledSquares has a vertical winning pattern.
+   * If it does, return an array of the winning square IDs.
+   * @param - Array of square IDs which have been filled by the player.
+   * @returns Array of winning squares if it has a winning pattern. false otherwise.
+   */
+  isVerticalWin(filledSquares: SquareID[]) {
     for (let i = 0; i < 3; i += 1) {
       const verticalPattern = filledSquares.filter((el) => el % 3 === i);
       if (verticalPattern.length === 3) {
         return verticalPattern;
       }
     }
+    return false;
+  }
 
-    // check diagonal win
+  /**
+   * Determines whether filledSquares has a diagonal winning pattern.
+   * If it does, return an array of the winning square IDs.
+   * @param - Array of square IDs which have been filled by the player.
+   * @returns Array of winning squares if it has a winning pattern. false otherwise.
+   */
+  isDiagonalWin(filledSquares: SquareID[]) {
     const lrDiagonalPattern = filledSquares.filter((el) => el === 0 || el === 4 || el === 8);
     if (lrDiagonalPattern.length === 3) {
       return lrDiagonalPattern;
@@ -100,7 +116,15 @@ export default class Board {
     if (rlDiagonalPattern.length === 3) {
       return rlDiagonalPattern;
     }
-    return null;
+    return false;
+  }
+
+  isWin(filledSquares: SquareID[]): false | SquareID[] {
+    return (
+      this.isHorizontalWin(filledSquares) ||
+      this.isVerticalWin(filledSquares) ||
+      this.isDiagonalWin(filledSquares)
+    );
   }
 
   winHandler() {
