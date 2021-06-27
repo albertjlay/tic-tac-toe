@@ -40,7 +40,7 @@ export default class Square {
   }
 
   /**
-   * If false, click handler will not run.
+   * If false, will remove the 'active' class and the click handler from _DOMRender.
    */
   get isActive() {
     return this._isActive;
