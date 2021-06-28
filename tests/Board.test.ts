@@ -5,6 +5,7 @@ test('Initialization of board', () => {
   const testBoard = new Board();
   expect(testBoard.xSquares.length).toBe(0);
   expect(testBoard.oSquares.length).toBe(0);
+  expect(testBoard.freeSquares.length).toBe(9);
   expect(testBoard.boardSquares.length).toBe(9);
   expect(testBoard.currentTurn).toBe(PlayerID.playerX);
   expect(testBoard.curWinPattern.length).toBe(0);
@@ -12,6 +13,7 @@ test('Initialization of board', () => {
   expect(testBoard.isDraw).toBe(false);
   testBoard.boardSquares.forEach((el, idx) => {
     expect(el.id).toBe(idx);
+    expect(testBoard.freeSquares[idx]).toBe(idx);
   });
 });
 
@@ -31,6 +33,8 @@ test('Player moves', () => {
   expect(testBoard.xSquares.length).toBe(1);
   expect(testBoard.xSquares[0]).toBe(4);
   expect(testBoard.curWinPattern.length).toBe(0);
+  expect(testBoard.freeSquares.length).toBe(8);
+  expect(testBoard.freeSquares.includes(4)).toBe(false);
 
   // Test occupying the same square.
   expect(() => {

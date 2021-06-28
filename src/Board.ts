@@ -8,6 +8,11 @@ import { SquareID, PlayerID } from './types';
 
 export default class Board {
   /**
+   * Array containing SquareIDs in ascending order.
+   */
+  private readonly _squareIDs: SquareID[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+  /**
    * Array representing the nine squares.
    */
   readonly boardSquares: Square[];
@@ -18,7 +23,7 @@ export default class Board {
   /**
    * Array representing the IDs of squares occupied by PX.
    * Elements are in original order determined by moves of PX (earliest first).
-   * Can only be modified through playerMove.
+   * Should only be modified through playerMove.
    */
   get xSquares() {
     return this._xSquares;
@@ -28,16 +33,26 @@ export default class Board {
   /**
    * Array representing the IDs of squares occupied by PO.
    * Elements are in original order determined by moves of PO (earliest first).
-   * Can only be modified through playerMove.
+   * Should only be modified through playerMove.
    */
   get oSquares() {
     return this._oSquares;
   }
 
+  private _freeSquares: SquareID[] = [...this._squareIDs];
+  /**
+   * Array representing the IDs of unoccupied squares.
+   * Elements are in ascending order.
+   * Should only be modified through playerMove.
+   */
+  get freeSquares() {
+    return this._freeSquares;
+  }
+
   private _currentTurn: PlayerID = PlayerID.playerX;
   /**
    * Current player's turn. PX goes first.
-   * Can only be modified through playerMove.
+   * Should only be modified through playerMove.
    */
   get currentTurn() {
     return this._currentTurn;
@@ -82,11 +97,6 @@ export default class Board {
     }
   }
   // -------------------------------------------------------------------------------------- //
-
-  /**
-   * Array containing SquareIDs in ascending order.
-   */
-  private readonly _squareIDs: SquareID[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   /**
    * Creates a new, empty board.
@@ -174,12 +184,13 @@ export default class Board {
       throw new Error('Player can only move when it is their turn!');
     }
 
-    // Add move to corresponding player array.
+    // Logs move to corresponding player array.
     if (player === PlayerID.playerX) {
       this.xSquares.push(move);
     } else {
       this.oSquares.push(move);
     }
+    this.freeSquares.splice(move, 1);
 
     // Check whether game has concluded
     this._curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];
