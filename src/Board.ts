@@ -13,26 +13,45 @@ export default class Board {
   readonly boardSquares: Square[];
 
   // ---------------------------- GAME STATES -------------------------------- //
+
+  private _xSquares: SquareID[] = [];
   /**
    * Array representing the IDs of squares occupied by PX.
    * Elements are in original order determined by moves of PX (earliest first).
+   * Can only be modified through playerMove.
    */
-  xSquares: SquareID[];
+  get xSquares() {
+    return this._xSquares;
+  }
+
+  private _oSquares: SquareID[] = [];
   /**
    * Array representing the IDs of squares occupied by PO.
    * Elements are in original order determined by moves of PO (earliest first).
+   * Can only be modified through playerMove.
    */
-  oSquares: SquareID[];
+  get oSquares() {
+    return this._oSquares;
+  }
+
+  private _currentTurn: PlayerID = PlayerID.playerX;
   /**
    * Current player's turn. PX goes first.
+   * Can only be modified through playerMove.
    */
-  currentTurn: PlayerID;
+  get currentTurn() {
+    return this._currentTurn;
+  }
 
+  private _curWinPattern: Number[][] = [];
   /**
    * Current winning pattern of the game.
    * If the game has not concluded or result in a draw, will be empty.
+   * Can only be modified through playerMove.
    */
-  curWinPattern: Number[][];
+  get curWinPattern() {
+    return this._curWinPattern;
+  }
 
   private _isGameOver = false;
   /**
@@ -74,10 +93,6 @@ export default class Board {
    */
   constructor() {
     this.boardSquares = this._squareIDs.map((el) => new Square(el));
-    this.xSquares = [];
-    this.oSquares = [];
-    this.currentTurn = PlayerID.playerX;
-    this.curWinPattern = [];
   }
 
   /**
@@ -155,25 +170,19 @@ export default class Board {
   playerMove(move: SquareID, player: PlayerID) {
     if (this.xSquares.includes(move) || this.oSquares.includes(move)) {
       throw new Error('Player cannot occupy a previously occupied square!');
-    } else if (player === this.currentTurn) {
+    } else if (player !== this.currentTurn) {
       throw new Error('Player can only move when it is their turn!');
     }
 
+    // Add move to corresponding player array.
     if (player === PlayerID.playerX) {
       this.xSquares.push(move);
     } else {
       this.oSquares.push(move);
     }
-    this.updateGameState();
-  }
 
-  /**
-   * Update game states: curWinPattern, isGameOver, currentTurn and isDraw.
-   * [Must only be called by playerMove]
-   */
-  private updateGameState() {
     // Check whether game has concluded
-    this.curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];
+    this._curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];
     if (this.curWinPattern.length !== 0) {
       this.isGameOver = true;
     } else if (this.xSquares.length + this.oSquares.length === 9) {
@@ -183,9 +192,9 @@ export default class Board {
 
     // Change next turn player
     if (this.currentTurn === PlayerID.playerX) {
-      this.currentTurn = PlayerID.playerO;
+      this._currentTurn = PlayerID.playerO;
     } else {
-      this.currentTurn = PlayerID.playerX;
+      this._currentTurn = PlayerID.playerX;
     }
   }
 
