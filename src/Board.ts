@@ -198,57 +198,47 @@ export default class Board {
     }
   }
 
-  // /**
-  //  * Determines whether a player has won or a draw has been achieved
-  //  * @returns ID of winner, 'DRAW', or 'INCONCLUSIVE'
-  //  */
-  // checkResult() {
-  //   const winningPatternX = this.findWins(this.xSquares);
-  //   const winningPatternO = this.findWins(this.oSquares);
-  //   if (winningPatternX) {
-  //     return winningPatternX;
-  //   } else if (winningPatternO) {
-  //     return winningPatternO;
-  //   } else if (this.xSquares.length + this.oSquares.length === 9) {
-  //     return [-1];
-  //   }
-  //   return [];
-  // }
-  // winHandler() {
-  //   this.boardSquares.forEach((el) => {
-  //     el.isActive = false;
-  //     if (this.curWinPattern.includes(el.id)) {
-  //       el.isWin = true;
-  //     }
-  //   });
-  // }
+  /**
+   * Should be called when game is over.
+   * Deactivates all squares and set isWin to true to all winning squares.
+   */
+  private gameOverHandler() {
+    this.boardSquares.forEach((el) => {
+      el.isActive = false;
 
-  // /**
-  //  * Render the board with nine empty squares as children to parent.
-  //  * @param parent The HTML element where the squares will be appended to.
-  //  */
-  // render(parent: HTMLElement) {
-  //   const boardDOM = document.createElement('div');
-  //   boardDOM.classList.add('board');
-  //   this.boardSquares.forEach((square) => {
-  //     square.render(boardDOM, () => {
-  //       square.isActive = false;
-  //       if (this.currentTurn === PlayerID.playerX) {
-  //         this.xSquares.push(square.id);
-  //         square.state = PlayerID.playerX;
-  //         this.curWinPattern = this.findWins(this.xSquares);
-  //         this.currentTurn = PlayerID.playerO;
-  //       } else {
-  //         this.oSquares.push(square.id);
-  //         square.state = PlayerID.playerO;
-  //         this.curWinPattern = this.findWins(this.oSquares);
-  //         this.currentTurn = PlayerID.playerX;
-  //       }
-  //       if (this.curWinPattern.length !== 0) {
-  //         this.winHandler();
-  //       }
-  //     });
-  //   });
-  //   parent.appendChild(boardDOM);
-  // }
+      // Create a list of all winning squares (unique).
+      const destructuredWinPattern = new Set();
+      for (let i = 0; i < this.curWinPattern.length; i += 1) {
+        destructuredWinPattern.add(this.curWinPattern[i][0]);
+        destructuredWinPattern.add(this.curWinPattern[i][1]);
+        destructuredWinPattern.add(this.curWinPattern[i][2]);
+      }
+
+      if (destructuredWinPattern.has(el.id)) {
+        el.isWin = true;
+      }
+    });
+  }
+
+  /**
+   * Render the board with nine empty squares as children to parent.
+   * @param parent The HTML element where the squares will be appended to.
+   */
+  render(parent: HTMLElement) {
+    const boardDOM = document.createElement('div');
+    boardDOM.classList.add('board');
+    this.boardSquares.forEach((square) => {
+      square.render(boardDOM, () => {
+        square.state = this.currentTurn;
+        this.playerMove(square.id, this.currentTurn);
+        square.isActive = false;
+
+        if (this.isGameOver) {
+          this.gameOverHandler();
+        }
+      });
+    });
+
+    parent.appendChild(boardDOM);
+  }
 }
