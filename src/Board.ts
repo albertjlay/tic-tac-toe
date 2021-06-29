@@ -178,7 +178,8 @@ export default class Board {
    * @param player Which player is moving.
    */
   playerMove(move: SquareID, player: PlayerID) {
-    if (this.xSquares.includes(move) || this.oSquares.includes(move)) {
+    if (!this.freeSquares.includes(move)) {
+      console.log(move);
       throw new Error('Player cannot occupy a previously occupied square!');
     } else if (player !== this.currentTurn) {
       throw new Error('Player can only move when it is their turn!');
@@ -190,13 +191,14 @@ export default class Board {
     } else {
       this.oSquares.push(move);
     }
-    this.freeSquares.splice(move, 1);
+
+    this._freeSquares = this.freeSquares.filter((el) => el !== move);
 
     // Check whether game has concluded
     this._curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];
     if (this.curWinPattern.length !== 0) {
       this.isGameOver = true;
-    } else if (this.xSquares.length + this.oSquares.length === 9) {
+    } else if (this.freeSquares.length === 0) {
       this.isGameOver = true;
       this.isDraw = true;
     }
