@@ -6,27 +6,47 @@ import { PlayerID, SquareID } from './types';
 import Board from './Board';
 
 export default abstract class AIOpponent {
-  protected myMoves: SquareID[];
+  protected _lastPlayerMove: SquareID | null;
+  protected _myMoves: SquareID[];
   constructor(public readonly playerID: PlayerID, public readonly board: Board) {
+    this._lastPlayerMove = null;
+
     if (playerID === PlayerID.playerX) {
-      this.myMoves = board.xSquares;
+      this._myMoves = board.xSquares;
     } else {
-      this.myMoves = board.oSquares;
+      this._myMoves = board.oSquares;
     }
 
-    setInterval(() => {
-      if (this.board.currentTurn === this.playerID) {
-        this.board.playerMove(this.getMove(), this.playerID);
-      }
-    }, 150);
+    // function callback(this: AIOpponent) {
+    //   if (this.board.currentTurn === this.playerID) {
+    //     const movePosition = this.getMove();
+    //     this.board.playerMove(movePosition, this.playerID);
+    //   }
+    // }
+    // setInterval(callback.bind());
+
+    // Add click handlers
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((square) => {
+      square.addEventListener('click', () => {
+        this._lastPlayerMove = this.board.xSquares[this.board.xSquares.length - 1];
+        if (!this.board.isGameOver && this.board.currentTurn === this.playerID) {
+          const movePosition = this.getMove();
+          this.board.playerMove(movePosition, this.playerID);
+        }
+      });
+    });
   }
 
   // /**
   //  * Logs the AI's move into the board if it's its turn.
   //  */
-  // placeMove() {
-
-  // }
+  placeMove = () => {
+    if (this.board.currentTurn === this.playerID) {
+      const movePosition = this.getMove();
+      this.board.playerMove(movePosition, this.playerID);
+    }
+  };
 
   /**
    * Chooses a square for the AI's move.
