@@ -10,7 +10,6 @@ export default class Square {
   private _isWin: boolean;
   private _state: SquareState;
   private _DOMRender: HTMLDivElement | null;
-  private _clickHandler: () => void;
 
   /**
    * Create a square with initial undefined state with the specified ID.
@@ -22,7 +21,6 @@ export default class Square {
     this._DOMRender = null;
     this._isActive = true;
     this._isWin = false;
-    this._clickHandler = () => {};
   }
 
   /**
@@ -49,7 +47,6 @@ export default class Square {
     this._isActive = state;
     if (this.isActive === false) {
       this._DOMRender?.classList.remove('active');
-      this._DOMRender?.removeEventListener('click', this._clickHandler);
     }
   }
 
@@ -69,7 +66,7 @@ export default class Square {
   /**
    * Appends a div representing the square as a child of parent.
    * @param parent Parent element where Square will be appended to.
-   * @param clickHandler Event handler for when square is clicked.
+   * @param clickHandler Event handler for when square is clicked. Run ONCE.
    */
   render(parent: HTMLElement, clickHandler: () => void) {
     const domRepresentation = document.createElement('div');
@@ -77,9 +74,8 @@ export default class Square {
     domRepresentation.classList.add('square');
     domRepresentation.classList.add('active');
     domRepresentation.classList.add(this.getClassState());
-    domRepresentation.addEventListener('click', clickHandler);
+    domRepresentation.addEventListener('click', clickHandler, { once: true });
     this._DOMRender = domRepresentation;
-    this._clickHandler = clickHandler;
     parent.appendChild(domRepresentation);
   }
 
