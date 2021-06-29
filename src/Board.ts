@@ -213,6 +213,10 @@ export default class Board {
     } else {
       this._currentTurn = PlayerID.playerX;
     }
+
+    if (this.isGameOver) {
+      this.gameOverHandler();
+    }
   }
 
   /**
@@ -247,10 +251,6 @@ export default class Board {
     this.boardSquares.forEach((square) => {
       square.render(boardDOM, () => {
         this.playerMove(square.id, this.currentTurn);
-
-        if (this.isGameOver) {
-          this.gameOverHandler();
-        }
       });
     });
 
