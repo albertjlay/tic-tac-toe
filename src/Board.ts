@@ -201,6 +201,10 @@ export default class Board {
       this.isDraw = true;
     }
 
+    // Update DOM
+    this.boardSquares[move].state = player;
+    this.boardSquares[move].isActive = false;
+
     // Change next turn player
     if (this.currentTurn === PlayerID.playerX) {
       this._currentTurn = PlayerID.playerO;
@@ -240,9 +244,7 @@ export default class Board {
     boardDOM.classList.add('board');
     this.boardSquares.forEach((square) => {
       square.render(boardDOM, () => {
-        square.state = this.currentTurn;
         this.playerMove(square.id, this.currentTurn);
-        square.isActive = false;
 
         if (this.isGameOver) {
           this.gameOverHandler();
