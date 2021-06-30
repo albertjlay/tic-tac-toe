@@ -11,6 +11,7 @@ test('Initialization of board', () => {
   expect(testBoard.curWinPattern.length).toBe(0);
   expect(testBoard.isGameOver).toBe(false);
   expect(testBoard.isDraw).toBe(false);
+  expect(testBoard.prevMove).toBe(null);
   testBoard.boardSquares.forEach((el, idx) => {
     expect(el.id).toBe(idx);
     expect(testBoard.freeSquares[idx]).toBe(idx);
@@ -35,6 +36,7 @@ test('Player moves', () => {
   expect(testBoard.curWinPattern.length).toBe(0);
   expect(testBoard.freeSquares.length).toBe(8);
   expect(testBoard.freeSquares.includes(4)).toBe(false);
+  expect(testBoard.prevMove).toBe(4);
 
   // Test occupying the same square.
   expect(() => {

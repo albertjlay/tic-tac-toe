@@ -49,6 +49,11 @@ export default class Board {
     return this._freeSquares;
   }
 
+  private _prevMove: SquareID | null = null;
+  get prevMove() {
+    return this._prevMove;
+  }
+
   private _currentTurn: PlayerID = PlayerID.playerX;
   /**
    * Current player's turn. PX goes first.
@@ -179,20 +184,21 @@ export default class Board {
    */
   playerMove(move: SquareID, player: PlayerID) {
     if (!this.freeSquares.includes(move)) {
-      console.log(move);
       throw new Error('Player cannot occupy a previously occupied square!');
     } else if (player !== this.currentTurn) {
       throw new Error('Player can only move when it is their turn!');
     }
 
-    // Logs move to corresponding player array.
+    // Logs move to arrays.
     if (player === PlayerID.playerX) {
       this.xSquares.push(move);
     } else {
       this.oSquares.push(move);
     }
-
     this._freeSquares = this.freeSquares.filter((el) => el !== move);
+
+    // Updates previous move
+    this._prevMove = move;
 
     // Check whether game has concluded
     this._curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];
