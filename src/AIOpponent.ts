@@ -14,32 +14,22 @@ export default abstract class AIOpponent {
       this._myMoves = board.oSquares;
     }
 
-    // function callback(this: AIOpponent) {
-    //   if (this.board.currentTurn === this.playerID) {
-    //     const movePosition = this.getMove();
-    //     this.board.playerMove(movePosition, this.playerID);
-    //   }
-    // }
-    // setInterval(callback.bind());
-
     // Add click handlers
     const squares = document.querySelectorAll('.square');
     squares.forEach((square) => {
-      square.addEventListener('click', () => {
-        if (!this.board.isGameOver && this.board.currentTurn === this.playerID) {
-          this.board.playerMove(this.getMove(), this.playerID);
-        }
-      });
+      square.addEventListener('click', this.AIMove);
     });
+
+    // In case AI moves first.
+    this.AIMove();
   }
 
-  // /**
-  //  * Logs the AI's move into the board if it's its turn.
-  //  */
-  placeMove = () => {
-    if (this.board.currentTurn === this.playerID) {
-      const movePosition = this.getMove();
-      this.board.playerMove(movePosition, this.playerID);
+  /**
+   * Logs the AI's move into the board if it's its turn.
+   */
+  AIMove = () => {
+    if (!this.board.isGameOver && this.board.currentTurn === this.playerID) {
+      this.board.playerMove(this.getMove(), this.playerID);
     }
   };
 
