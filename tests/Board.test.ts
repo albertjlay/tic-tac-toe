@@ -94,6 +94,23 @@ test('Position type', () => {
   expect(Board.getPositionTypeById(4)).toBe(PositionType.CENTER);
 });
 
+test('Getting free square based on position type', () => {
+  const testBoard = new Board();
+  expect(testBoard.getFreeSquaresByType(PositionType.CENTER)).toEqual([4]);
+  expect(testBoard.getFreeSquaresByType(PositionType.CORNER)).toEqual([0, 2, 6, 8]);
+  expect(testBoard.getFreeSquaresByType(PositionType.EDGE)).toEqual([1, 3, 5, 7]);
+  testBoard.playerMove(4, PlayerID.playerX);
+  expect(testBoard.getFreeSquaresByType(PositionType.CENTER)).toEqual([]);
+  testBoard.playerMove(0, PlayerID.playerO);
+  testBoard.playerMove(1, PlayerID.playerX);
+  expect(testBoard.getFreeSquaresByType(PositionType.CORNER)).toEqual([2, 6, 8]);
+  expect(testBoard.getFreeSquaresByType(PositionType.EDGE)).toEqual([3, 5, 7]);
+  testBoard.playerMove(8, PlayerID.playerO);
+  testBoard.playerMove(5, PlayerID.playerX);
+  expect(testBoard.getFreeSquaresByType(PositionType.CORNER)).toEqual([2, 6]);
+  expect(testBoard.getFreeSquaresByType(PositionType.EDGE)).toEqual([3, 7]);
+});
+
 test('Check winning patterns', () => {
   /**
    * Testing function which tests whether findWins work as expected.

@@ -133,6 +133,34 @@ export default class Board {
   }
 
   /**
+   * Finds all free squares with the specified positionType.
+   * @param positionType Position type of the square
+   * @returns ID of free square with the specified positionType
+   */
+  getFreeSquaresByType(positionType: PositionType): SquareID[] {
+    const retval: SquareID[] = [];
+
+    if (positionType === PositionType.CENTER && this.freeSquares.includes(4)) {
+      retval.push(4);
+    } else if (positionType === PositionType.CORNER) {
+      const corners: SquareID[] = [0, 2, 6, 8];
+      for (let i = 0; i < corners.length; i += 1) {
+        if (this.freeSquares.includes(corners[i])) {
+          retval.push(corners[i]);
+        }
+      }
+    } else if (positionType === PositionType.EDGE) {
+      const edges: SquareID[] = [1, 3, 5, 7];
+      for (let i = 0; i < edges.length; i += 1) {
+        if (this.freeSquares.includes(edges[i])) {
+          retval.push(edges[i]);
+        }
+      }
+    }
+    return retval;
+  }
+
+  /**
    * Find all horizontal winning patterns of filledSquares.
    * @param - Array of square IDs which have been filled by the player.
    * @returns Array of array of horizontal-winning squares (in arbitrary order).
