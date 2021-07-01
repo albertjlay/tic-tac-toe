@@ -3,7 +3,8 @@
  */
 
 import AIOpponent from './AIOpponent';
-import { PlayerID, SquareID } from './types';
+import Board from './Board';
+import { PlayerID, PositionType, SquareID } from './types';
 
 export default class SmartAIOpponent extends AIOpponent {
   getMove() {
@@ -61,7 +62,7 @@ export default class SmartAIOpponent extends AIOpponent {
     }
 
     // Split cases based on player's second move.
-    if (this.board.oSquares[0] === 4) {
+    if (Board.getPositionTypeById(this.board.oSquares[0]) === PositionType.CENTER) {
       return this.getMoveFirstCenter();
     }
     return this.getMoveFirstNonCenter();
@@ -79,11 +80,9 @@ export default class SmartAIOpponent extends AIOpponent {
       throw new Error("Only use this method if the player's second move is center");
     }
 
-    // Third turn
-    if (this.board.freeSquares.length === 7) {
+    if (this.board.curTurnNumber === 3) {
       return 8;
     }
-
     // Will never reach here. completePatter will handle the rest.
     throw new Error('Error! Please check getMoveFirstCenter');
   }
@@ -100,8 +99,7 @@ export default class SmartAIOpponent extends AIOpponent {
       throw new Error("Only use this method if the player's second move is non-center");
     }
 
-    // For third turn
-    if (this.board.freeSquares.length === 7) {
+    if (this.board.curTurnNumber === 3) {
       switch (this.board.prevMove) {
         case 1:
         case 2:
@@ -109,7 +107,7 @@ export default class SmartAIOpponent extends AIOpponent {
         default:
           return 2;
       }
-    } else if (this.board.freeSquares.length === 5) {
+    } else if (this.board.curTurnNumber === 5) {
       // Will only reach here if player blocks the pattern.
       // If not, completePattern will take care of it.
       switch (this.board.xSquares[1]) {
