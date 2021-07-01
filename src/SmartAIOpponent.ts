@@ -104,8 +104,26 @@ export default class SmartAIOpponent extends AIOpponent {
   private getMoveFirstNonCenter() {
     if (this.playerID === PlayerID.playerO) {
       throw new Error('Only use this method if AI moves first.');
-    } else if (this.board.curTurnNumber >= 2 && Board.getPositionTypeById(this.board.oSquares[0])) {
+    } else if (
+      this.board.curTurnNumber >= 2 &&
+      Board.getPositionTypeById(this.board.oSquares[0]) === PositionType.CENTER
+    ) {
       throw new Error("Only use this method if the player's second move is non-center");
+    }
+
+    if (this.board.curTurnNumber === 3) {
+      switch (this.board.prevMove) {
+        case 1:
+        case 5:
+          return 6;
+        case 3:
+        case 7:
+          return 2;
+      }
+    } else if (this.board.curTurnNumber === 5 && this.board.freeSquares.includes(8)) {
+      return 8;
+    } else if (this.board.curTurnNumber === 5) {
+      return 6;
     }
 
     const corners: SquareID[] = [0, 2, 6, 8];
@@ -126,7 +144,6 @@ export default class SmartAIOpponent extends AIOpponent {
     }
 
     const firstMoveType = Board.getPositionTypeById(this.board.xSquares[0]);
-    console.log(firstMoveType);
     switch (firstMoveType) {
       case PositionType.CENTER:
         return this.getMoveSecondCenter();
