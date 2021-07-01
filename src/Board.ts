@@ -4,7 +4,7 @@
  */
 
 import Square from './Square';
-import { SquareID, PlayerID } from './types';
+import { SquareID, PlayerID, PositionType } from './types';
 
 export default class Board {
   /**
@@ -63,6 +63,14 @@ export default class Board {
     return this._currentTurn;
   }
 
+  private _curTurnNumber = 1;
+  /**
+   * Current turn number. Starts from 1 and can be at most 9.
+   */
+  get curTurnNumber() {
+    return this._curTurnNumber;
+  }
+
   private _curWinPattern: Number[][] = [];
   /**
    * Current winning pattern of the game.
@@ -108,6 +116,20 @@ export default class Board {
    */
   constructor() {
     this.boardSquares = this._squareIDs.map((el) => new Square(el));
+  }
+
+  /**
+   * Determines the position type of the square with the given ID.
+   * @param id ID of the square
+   * @returns The position type of the square
+   */
+  static getPositionTypeById(id: SquareID) {
+    if (id === 4) {
+      return PositionType.CENTER;
+    } else if (id === 0 || id === 2 || id === 6 || id === 8) {
+      return PositionType.CORNER;
+    }
+    return PositionType.EDGE;
   }
 
   /**
@@ -197,8 +219,9 @@ export default class Board {
     }
     this._freeSquares = this.freeSquares.filter((el) => el !== move);
 
-    // Updates previous move
+    // Updates previous move and turn number
     this._prevMove = move;
+    this._curTurnNumber += 1;
 
     // Check whether game has concluded
     this._curWinPattern = [...this.findWins(this.xSquares), ...this.findWins(this.oSquares)];

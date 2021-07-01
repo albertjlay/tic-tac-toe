@@ -1,5 +1,5 @@
 import Board from '../src/Board';
-import { PlayerID, SquareID } from '../src/types';
+import { PlayerID, PositionType, SquareID } from '../src/types';
 
 test('Initialization of board', () => {
   const testBoard = new Board();
@@ -12,6 +12,7 @@ test('Initialization of board', () => {
   expect(testBoard.isGameOver).toBe(false);
   expect(testBoard.isDraw).toBe(false);
   expect(testBoard.prevMove).toBe(null);
+  expect(testBoard.curTurnNumber).toBe(1);
   testBoard.boardSquares.forEach((el, idx) => {
     expect(el.id).toBe(idx);
     expect(testBoard.freeSquares[idx]).toBe(idx);
@@ -37,12 +38,38 @@ test('Player moves', () => {
   expect(testBoard.freeSquares.length).toBe(8);
   expect(testBoard.freeSquares.includes(4)).toBe(false);
   expect(testBoard.prevMove).toBe(4);
+  expect(testBoard.curTurnNumber).toBe(2);
 
   // Test occupying the same square.
   expect(() => {
     testBoard.playerMove(4, PlayerID.playerO);
   }).toThrow();
   testBoard.playerMove(5, PlayerID.playerO);
+  expect(testBoard.currentTurn).toBe(PlayerID.playerX);
+  expect(testBoard.isDraw).toBe(false);
+  expect(testBoard.isGameOver).toBe(false);
+  expect(testBoard.oSquares.length).toBe(1);
+  expect(testBoard.xSquares.length).toBe(1);
+  expect(testBoard.oSquares[0]).toBe(5);
+  expect(testBoard.curWinPattern.length).toBe(0);
+  expect(testBoard.freeSquares.length).toBe(7);
+  expect(testBoard.freeSquares.includes(5)).toBe(false);
+  expect(testBoard.prevMove).toBe(5);
+  expect(testBoard.curTurnNumber).toBe(3);
+});
+
+test('Position type', () => {
+  expect(Board.getPositionTypeById(0)).toBe(PositionType.CORNER);
+  expect(Board.getPositionTypeById(2)).toBe(PositionType.CORNER);
+  expect(Board.getPositionTypeById(6)).toBe(PositionType.CORNER);
+  expect(Board.getPositionTypeById(8)).toBe(PositionType.CORNER);
+
+  expect(Board.getPositionTypeById(1)).toBe(PositionType.EDGE);
+  expect(Board.getPositionTypeById(3)).toBe(PositionType.EDGE);
+  expect(Board.getPositionTypeById(5)).toBe(PositionType.EDGE);
+  expect(Board.getPositionTypeById(7)).toBe(PositionType.EDGE);
+
+  expect(Board.getPositionTypeById(4)).toBe(PositionType.CENTER);
 });
 
 test('Check winning patterns', () => {
