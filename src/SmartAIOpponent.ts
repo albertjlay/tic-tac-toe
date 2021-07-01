@@ -99,28 +99,13 @@ export default class SmartAIOpponent extends AIOpponent {
       throw new Error("Only use this method if the player's second move is non-center");
     }
 
-    if (this.board.curTurnNumber === 3) {
-      switch (this.board.prevMove) {
-        case 1:
-        case 2:
-          return 6;
-        default:
-          return 2;
-      }
-    } else if (this.board.curTurnNumber === 5) {
-      // Will only reach here if player blocks the pattern.
-      // If not, completePattern will take care of it.
-      switch (this.board.xSquares[1]) {
-        case 6:
-          return 8;
-        case 2:
-          return 6;
-        default:
-          throw new Error('Error! Please check getMoveFirstNonCenter');
-      }
-    } else {
-      // Will never reach here if algorithm works correctly as completePattern will take care of the rest.
-      throw new Error('Error! Please check getMoveFirstNonCenter');
-    }
+    const corners: SquareID[] = [0, 2, 6, 8];
+    const availableCorners = corners.filter((id) => {
+      return this.board.freeSquares.includes(id);
+    });
+
+    console.log(this.board.freeSquares);
+    console.log(availableCorners);
+    return availableCorners[0];
   }
 }
