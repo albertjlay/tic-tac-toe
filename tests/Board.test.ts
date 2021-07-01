@@ -58,6 +58,28 @@ test('Player moves', () => {
   expect(testBoard.curTurnNumber).toBe(3);
 });
 
+test('Previous move', () => {
+  const testBoard = new Board();
+  testBoard.playerMove(0, PlayerID.playerX);
+  expect(testBoard.prevMove).toBe(0);
+  testBoard.playerMove(1, PlayerID.playerO);
+  expect(testBoard.prevMove).toBe(1);
+  testBoard.playerMove(2, PlayerID.playerX);
+  expect(testBoard.prevMove).toBe(2);
+  testBoard.playerMove(3, PlayerID.playerO);
+  expect(testBoard.prevMove).toBe(3);
+  testBoard.playerMove(4, PlayerID.playerX);
+  expect(testBoard.prevMove).toBe(4);
+  testBoard.playerMove(5, PlayerID.playerO);
+  expect(testBoard.prevMove).toBe(5);
+  testBoard.playerMove(6, PlayerID.playerX);
+  expect(testBoard.prevMove).toBe(6);
+  testBoard.playerMove(7, PlayerID.playerO);
+  expect(testBoard.prevMove).toBe(7);
+  testBoard.playerMove(8, PlayerID.playerX);
+  expect(testBoard.prevMove).toBe(8);
+});
+
 test('Position type', () => {
   expect(Board.getPositionTypeById(0)).toBe(PositionType.CORNER);
   expect(Board.getPositionTypeById(2)).toBe(PositionType.CORNER);

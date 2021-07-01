@@ -192,10 +192,17 @@ export default class Board {
    * @returns Array of array of winning squares (in arbitrary order).
    */
   findWins(filledSquares: SquareID[]) {
+    // Filters non-unique squares (for findFork in SmartAIOpponent) - may need refactoring
+    const distinctSquaresSet = new Set(filledSquares);
+    const distinctSquaresArray: SquareID[] = [];
+    for (const square of distinctSquaresSet) {
+      distinctSquaresArray.push(square);
+    }
+
     return [
-      ...this.findHorizontalWins(filledSquares),
-      ...this.findVerticalWins(filledSquares),
-      ...this.findDiagonalWins(filledSquares),
+      ...this.findHorizontalWins(distinctSquaresArray),
+      ...this.findVerticalWins(distinctSquaresArray),
+      ...this.findDiagonalWins(distinctSquaresArray),
     ];
   }
 
