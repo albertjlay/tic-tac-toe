@@ -1,7 +1,7 @@
 {
   "name": "tic-tac-toe",
   "version": "1.0.0",
-  "description": "A web-based clone of the classic tic-tac-toe",
+  "description": "A web-based tic-tac-toe equipped with an unbeatable AI.",
   "main": "index.js",
   "author": "Albert Lay",
   "license": "ISC",
