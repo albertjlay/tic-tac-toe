@@ -7,11 +7,14 @@ import Board from './Board';
 
 export default abstract class AIOpponent {
   protected _myMoves: SquareID[];
+  protected _opponentMoves: SquareID[];
   constructor(public readonly playerID: PlayerID, public readonly board: Board) {
     if (playerID === PlayerID.playerX) {
       this._myMoves = board.xSquares;
+      this._opponentMoves = board.oSquares;
     } else {
       this._myMoves = board.oSquares;
+      this._opponentMoves = board.xSquares;
     }
 
     // Add click handlers

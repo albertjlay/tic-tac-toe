@@ -2,6 +2,7 @@ import './style.scss';
 import Board from './Board';
 import DumbAIOpponent from './DumbAIOpponent';
 import { PlayerID } from './types';
+import SmartAIOpponent from './SmartAIOpponent';
 
 // /**
 //  * Clears root div and instantiate a new board.
@@ -35,6 +36,12 @@ const newGame = function (mode: string) {
       break;
     case 'DAIvH':
       new DumbAIOpponent(PlayerID.playerX, board);
+      break;
+    case 'HvSAI':
+      new SmartAIOpponent(PlayerID.playerO, board);
+      break;
+    case 'SAIvH':
+      new SmartAIOpponent(PlayerID.playerX, board);
       break;
     default:
       console.log('error');
