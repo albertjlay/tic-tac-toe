@@ -5,47 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <header>
+    <main>
       <div class="title">
         <h1>Tic Tac Toe</h1>
-        <h2>Implemented by Albert Lay</h2>
+        <h2>
+          Implemented by
+          <a href="https://github.com/albertjlay" target="_blank" rel="noreferrer">Albert Lay</a>
+        </h2>
       </div>
       <form id="game-mode">
-        <div>
-          <input type="radio" name="game-mode" id="HvH" value="HvH" checked />
-          <label for="HvH">Human vs Human</label>
+        <div class="radio-container">
+          <label for="HvH"
+            ><input type="radio" name="game-mode" id="HvH" value="HvH" checked />
+            Human vs Human
+          </label>
         </div>
-        <div>
-          <input type="radio" name="game-mode" id="HvDAI" value="HvDAI" />
-          <label for="HvDAI">Human vs Dumb AI (you go first)</label>
+        <div class="radio-container">
+          <label for="HvDAI">
+            <input type="radio" name="game-mode" id="HvDAI" value="HvDAI" />
+            Human vs Dumb AI (you go first)
+          </label>
         </div>
-        <div>
-          <input type="radio" name="game-mode" id="DAIvH" value="DAIvH" />
-          <label for="DAIvH">Human vs Dumb AI (you go second)</label>
+        <div class="radio-container">
+          <label for="DAIvH">
+            <input type="radio" name="game-mode" id="DAIvH" value="DAIvH" />
+            Human vs Dumb AI (you go second)
+          </label>
         </div>
-        <div>
-          <input type="radio" name="game-mode" id="HvSAI" value="HvSAI" />
-          <label for="HvSAI">Human vs Smart AI (you go first)</label>
+        <div class="radio-container">
+          <label for="HvSAI">
+            <input type="radio" name="game-mode" id="HvSAI" value="HvSAI" />
+            Human vs Unbeatable AI (you go first)
+          </label>
         </div>
-        <div>
-          <input type="radio" name="game-mode" id="SAIvH" value="SAIvH" />
-          <label for="SAIvH">Human vs Smart AI (you go second)</label>
+        <div class="radio-container">
+          <label for="SAIvH">
+            <input type="radio" name="game-mode" id="SAIvH" value="SAIvH" />
+            Human vs Unbeatable AI (you go second)
+          </label>
         </div>
+
         <button>Start Game</button>
       </form>
-    </header>
-    <main>
-      <div id="root"></div>
     </main>
+    <div id="root"></div>
     <script src="./build/bundle.js"></script>
   </body>
 </html>
