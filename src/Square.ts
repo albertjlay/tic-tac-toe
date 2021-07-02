@@ -45,6 +45,9 @@ export default class Square {
     this._isActive = state;
     if (this.isActive === false) {
       this._DOMRender?.classList.remove('active');
+      // Removes all event listeners.
+      // Taken from https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+      this._DOMRender?.replaceWith(this._DOMRender.cloneNode());
     }
   }
 
