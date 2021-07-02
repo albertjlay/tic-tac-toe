@@ -47,7 +47,7 @@ export default class Square {
       this._DOMRender?.classList.remove('active');
       // Removes all event listeners.
       // Taken from https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-      this._DOMRender?.replaceWith(this._DOMRender.cloneNode());
+      this._DOMRender?.replaceWith(this._DOMRender.cloneNode(true));
     }
   }
 
@@ -60,7 +60,8 @@ export default class Square {
   set isWin(state: boolean) {
     this._isWin = state;
     if (this.isWin === true) {
-      this._DOMRender?.classList.add('win');
+      // hack to remove all event listeners. Refactor recommended
+      document.getElementById(`square${this.id}`)?.classList.add('win');
     }
   }
 
