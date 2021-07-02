@@ -75,10 +75,6 @@ main {
       margin: 10px 0;
       cursor: pointer;
       font-weight: 300;
-
-      input[type='radio'] {
-        margin-right: 5px;
-      }
     }
 
     .radio-container:hover {
@@ -135,6 +131,43 @@ main {
     }
     &.lose.playerO {
       @include square-background('./assets/grayO.svg');
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  $mobile-board-size: 90vw;
+  body {
+    margin: 0;
+    display: block;
+  }
+  main {
+    height: 100vh;
+    width: 100vw;
+    .title {
+      h1 {
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 15px;
+      }
+    }
+  }
+
+  #root {
+    height: 100vh;
+    width: 100vw;
+    padding: 5vh 0;
+  }
+
+  .board {
+    width: $mobile-board-size;
+    height: $mobile-board-size;
+    line-height: 0;
+    margin: auto;
+    .square {
+      height: math.div($mobile-board-size, 3);
+      width: math.div($mobile-board-size, 3);
     }
   }
 }

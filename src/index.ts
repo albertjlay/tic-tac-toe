@@ -39,3 +39,11 @@ gameModeForm?.addEventListener('submit', (event) => {
   )!;
   newGame(checkedButton.value);
 });
+
+// Adding scroller for mobile
+if (window.innerWidth <= 750) {
+  const submitButton = document.querySelector('main form button');
+  submitButton?.addEventListener('click', () => {
+    window.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' });
+  });
+}
