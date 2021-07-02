@@ -149,39 +149,3 @@ test('AI never loses', () => {
   testSmartAI(PlayerID.playerX, 4000);
   testSmartAI(PlayerID.playerO, 4000);
 });
-
-// test('AI first move and player moves non-center in second turn', () => {
-//   const possibleSecondMove: SquareID[] = [1, 2, 3, 5, 6, 7, 8];
-//   possibleSecondMove.forEach((secondMove) => {
-//     let testBoard = new Board();
-//     let AI = new SmartAIOpponent(PlayerID.playerX, testBoard);
-//     testBoard.playerMove(secondMove, PlayerID.playerO);
-//     console.log(AI.getMove());
-//     AI.AIMove();
-
-//     // console.log(secondMove);
-//     // console.log(testBoard.freeSquares);
-//     testBoard.freeSquares.forEach((fourthMove) => {
-//       // console.log(fourthMove);
-//       // console.log(testBoard.oSquares);
-//       // console.log(testBoard.xSquares);
-//       // console.log(testBoard.freeSquares);
-//       testBoard.playerMove(fourthMove, PlayerID.playerO);
-//       AI.AIMove();
-
-//       if (!testBoard.isGameOver) {
-//         testBoard.freeSquares.forEach((sixthMove) => {
-//           testBoard.playerMove(sixthMove, PlayerID.playerO);
-//           AI.AIMove();
-//           expect(testBoard.findWins(testBoard.oSquares).length).toBe(0);
-//           expect(testBoard.findWins(testBoard.xSquares).length).not.toBe(0);
-//           testBoard = new Board();
-//           AI = new SmartAIOpponent(PlayerID.playerX, testBoard);
-//         });
-//       } else {
-//         testBoard = new Board();
-//         AI = new SmartAIOpponent(PlayerID.playerX, testBoard);
-//       }
-//     });
-//   });
-// });

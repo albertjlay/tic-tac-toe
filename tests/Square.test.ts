@@ -1,5 +1,5 @@
 import Square from '../src/Square';
-import { PlayerID, PositionType } from '../src/types';
+import { PlayerID } from '../src/types';
 
 test('Correctness of square properties', () => {
   const testSquare = new Square(5);
