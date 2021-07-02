@@ -9,6 +9,8 @@ test('Correctness of square properties', () => {
   expect(testSquare.state).toBe(PlayerID.playerX);
   testSquare.state = PlayerID.playerO;
   expect(testSquare.state).toBe(PlayerID.playerX);
+  expect(testSquare.isWin).toBe(false);
+  expect(testSquare.isLose).toBe(false);
 });
 
 test('Correctness of square DOM properties', () => {
@@ -28,6 +30,7 @@ test('Correctness of square DOM properties', () => {
   const testSquare2 = new Square(6);
   const parent2 = document.createElement('div');
   testSquare2.state = PlayerID.playerX;
+
   testSquare2.render(parent2, () => console.log('Click!'));
   const testSquareDOM2 = parent2.children[0];
   expect(testSquareDOM2).not.toBeUndefined;
@@ -35,4 +38,18 @@ test('Correctness of square DOM properties', () => {
   expect(testSquareDOM2.classList).toContain('square');
   expect(testSquareDOM2.classList).toContain('playerX');
   expect(testSquareDOM2.classList).not.toContain('playerO');
+});
+
+test('Win and lose states', () => {
+  const testSquare1 = new Square(6);
+  testSquare1.isWin = true;
+  expect(() => {
+    testSquare1.isLose = true;
+  }).toThrow();
+
+  const testSquare2 = new Square(0);
+  testSquare2.isLose = true;
+  expect(() => {
+    testSquare2.isWin = true;
+  }).toThrow();
 });

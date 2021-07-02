@@ -288,19 +288,20 @@ export default class Board {
    * Deactivates all squares and set isWin to true to all winning squares.
    */
   private gameOverHandler() {
+    // Create a list of all winning squares (unique).
+    const destructuredWinPattern = new Set();
+    for (let i = 0; i < this.curWinPattern.length; i += 1) {
+      destructuredWinPattern.add(this.curWinPattern[i][0]);
+      destructuredWinPattern.add(this.curWinPattern[i][1]);
+      destructuredWinPattern.add(this.curWinPattern[i][2]);
+    }
     this.boardSquares.forEach((el) => {
       el.isActive = false;
 
-      // Create a list of all winning squares (unique).
-      const destructuredWinPattern = new Set();
-      for (let i = 0; i < this.curWinPattern.length; i += 1) {
-        destructuredWinPattern.add(this.curWinPattern[i][0]);
-        destructuredWinPattern.add(this.curWinPattern[i][1]);
-        destructuredWinPattern.add(this.curWinPattern[i][2]);
-      }
-
       if (destructuredWinPattern.has(el.id)) {
         el.isWin = true;
+      } else {
+        el.isLose = true;
       }
     });
   }

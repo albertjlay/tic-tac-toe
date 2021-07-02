@@ -5,21 +5,17 @@
 import { PlayerID, SquareState, SquareID } from './types';
 
 export default class Square {
-  private _isActive: boolean;
-  private _isWin: boolean;
-  private _state: SquareState;
-  private _DOMRender: HTMLDivElement | null;
+  private _isActive = true;
+  private _isWin = false;
+  private _isLose = false;
+  private _state: SquareState = undefined;
+  private _DOMRender: HTMLDivElement | null = null;
 
   /**
    * Create a square with initial undefined state with the specified ID.
    * @param id The ID of the square.
    */
-  constructor(public readonly id: SquareID) {
-    this._state = undefined;
-    this._DOMRender = null;
-    this._isActive = true;
-    this._isWin = false;
-  }
+  constructor(public readonly id: SquareID) {}
 
   /**
    * Can only be modified if current state is undefined. Once changed, it stays constant.
@@ -29,6 +25,9 @@ export default class Square {
     return this._state;
   }
   set state(player: SquareState) {
+    if (!this.isActive) {
+      throw new Error('Cannot place a move on an inactive square!');
+    }
     if (this._state === undefined) {
       this._state = player;
       this.updateRender();
@@ -58,10 +57,31 @@ export default class Square {
     return this._isWin;
   }
   set isWin(state: boolean) {
+    if (state && this.isLose) {
+      throw new Error('Square cannot win and lose at the same time.');
+    }
     this._isWin = state;
+
     if (this.isWin === true) {
       // hack to remove all event listeners. Refactor recommended
       document.getElementById(`square${this.id}`)?.classList.add('win');
+    }
+  }
+
+  /**
+   * If true, the 'lose' class will be added to _DOMRender.
+   */
+  get isLose() {
+    return this._isLose;
+  }
+  set isLose(state: boolean) {
+    if (state && this.isWin) {
+      throw new Error('Square cannot win and lose at the same time.');
+    }
+    this._isLose = state;
+    if (this.isLose === true) {
+      // hack to remove all event listeners. Refactor recommended
+      document.getElementById(`square${this.id}`)?.classList.add('lose');
     }
   }
 
