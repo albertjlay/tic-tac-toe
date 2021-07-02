@@ -46,15 +46,14 @@ main {
   flex-direction: column;
   .title {
     h1 {
-      font-size: 70px;
+      font-size: 50px;
       width: 100%;
       padding: 0 1em;
-      margin: 5% 0;
       background-color: $transparent-white;
       font-weight: 700;
     }
     h2 {
-      font-size: 20px;
+      font-size: 16px;
       padding: 5px 1em;
       margin: 5% 0;
       background-color: $transparent-white;
@@ -72,9 +71,10 @@ main {
       display: block;
       padding: 1em;
       border: solid 1px black;
-      margin: 10px 0;
+      margin: 1vh 0;
       cursor: pointer;
       font-weight: 300;
+      font-size: 0.9em;
     }
 
     .radio-container:hover {
@@ -90,6 +90,7 @@ main {
       font-size: 1.7em;
       background-color: $transparent-white;
       border: none;
+      margin: 1vh 0;
     }
     button:hover {
       text-decoration: underline;
