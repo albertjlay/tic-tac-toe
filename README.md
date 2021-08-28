@@ -81,7 +81,7 @@ Throughout my first-year courses, it's been drilled to me how crucial documentat
 
 I finally brought back these two in this project, and I realized I shouldn't have left them at all. This is because I found that having automated tests enabled me to catch bugs early and having function documentation always ready on hover increased my productivity.
 
-Furthermore, I was only able to confirm that my AI was truly unbeatable due to a testing function that I designed. It simulates randomized player moves against the AI and tests whether the AI ever loses in any of these trials. After setting the function to run 50,000 times, I was pretty sure that my AI was unbeatable.
+Furthermore, I was only able to confirm that my AI was truly unbeatable due to a testing function that I designed. It simulates randomized player moves against the AI and tests whether the AI ever loses in any of these trials. After setting the function to run 1 million times (AI goes first half the time), I was pretty sure that my AI was unbeatable.
 
 ```js
 const testSmartAI = function (AIPlayerID: PlayerID, numberOfTrials: Number) {

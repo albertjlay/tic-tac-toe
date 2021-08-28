@@ -115,27 +115,24 @@ test('AI never loses', () => {
   };
 
   const testSmartAI = function (AIPlayerID: PlayerID, numberOfTrials: Number) {
-    const randomizedMoves: SquareID[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     for (let i = 0; i < numberOfTrials; i += 1) {
+      const randomizedMoves: SquareID[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
       shuffle(randomizedMoves);
       const testBoard = new Board();
       const smartAI = new SmartAIOpponent(AIPlayerID, testBoard);
       const playerID = AIPlayerID === PlayerID.playerX ? PlayerID.playerO : PlayerID.playerX;
 
       for (let j = 0; j < randomizedMoves.length; j += 1) {
+        if (testBoard.isGameOver) {
+          break;
+        }
+
         const randomizedFreeSquares = randomizedMoves.filter((move) =>
           testBoard.freeSquares.includes(move)
         );
 
-        if (testBoard.isGameOver) {
-          break;
-        }
-        // since AI will already move in its instatiation even if it moves first
+        // since AI will already move in its instatiation if it moves first
         testBoard.playerMove(randomizedFreeSquares[0], playerID);
-
-        if (testBoard.isGameOver) {
-          break;
-        }
         smartAI.AIMove();
       }
 
@@ -146,6 +143,6 @@ test('AI never loses', () => {
       expect(testBoard.findWins(playerMovesArray).length).toBe(0);
     }
   };
-  testSmartAI(PlayerID.playerX, 4000);
-  testSmartAI(PlayerID.playerO, 4000);
+  testSmartAI(PlayerID.playerX, 500000);
+  testSmartAI(PlayerID.playerO, 500000);
 });
